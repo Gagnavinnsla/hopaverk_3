@@ -53,19 +53,29 @@ x=int(x)
 if x==2:
 	Worked=False
 	while Worked==False:
-		x=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\n Heimsálfa(1)\nLand(2)\nMarkað(1)"""))
+		x=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\n Heimsálfa(1)\nLand(2)\nMarkað(3)"""))
 		if x==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
-			cursor.execute('select * from exchange where ')
+			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' """.format(F))
 			F=cursor.fetchall()
 		elif x==2:
-			F=printnames('select Distinct e.land from exchange e')
+			print("Veldu Heimsálfu: ")
+			F=printnames('select DISTINCT e.heimsalfa from exchange e')
+			print("Veldu land: ")
+			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute('')
-			F=cursor.fetchall
+			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' """.format(F))			
+			F=cursor.fetchall()			
 		elif x==3:
-			F=printnames('select Distinc e.exch from exchange e')
+			print("Veldu Heimsálfu: ")
+			F=printnames('select DISTINCT e.heimsalfa from exchange e')
+			print("Veldu land: ")
+			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
+			print("Veldu Markað: ")
+			F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute('')
+			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.exch like '{}' """.format(F))			
 			F=cursor.fetchall()
+
+print(F)
