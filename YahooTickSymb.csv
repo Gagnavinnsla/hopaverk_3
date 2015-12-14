@@ -1,0 +1,59 @@
+rowlabels,total,Country,continent
+AMS,45,Netherlands,Europe
+ASE,397,United States,North-America
+ASX,493,Australia,Europe
+ATH,24,Greece,Europe
+BER,814,Germany,Europe
+BRU,37,Belgium,Europe
+BSE,516,India,Asia
+BTS,1,Thailand,Asia
+BUE,82,Argentina,South-America
+CBT,15,Tunisia,North-Africa
+CPH,39,Denmark,Europe
+DUS,271,Germany,Europe
+EBS,72,Austria,Europe
+EUX,36,Germany,Europe
+FRA,1231,Germay,Europe
+GER,330,Germany,Europe
+HAM,103,Germany,Europe
+HAN,46,Germany,Europe
+HKG,758,Hong Kong,Asia
+IOB,22,United Kingdom,Europe
+ISE,11,Ireland,Europe
+JKT,187,Indonesia,Asia
+KLS,197,Malaysia,Asia
+KOE,113,Korea,Asia
+KSC,151,Korea,Asia
+LIS,12,Portugal,Europe
+LSE,603,United Kingdom,Europe
+MAD,1,Spain,Europe
+MCE,57,Spain,Europe
+MCX,42,India,Asia
+MEX,96,Mexico,South-America
+MIL,73,Italy,Europe
+MUN,490,Germany,Europe
+NAS,4,United States,North-America
+NCM,689,Australia,Europe
+NGM,632,Sweden,Europe
+NMS,1747,United States,North-America
+NSI,253,India,Asia
+NYQ,2965,United States,North-America
+NZE,72,New Zealand,Oceania
+OBB,460,United States,North-America
+OSL,61,Norway,Europe
+PAR,250,France,Europe
+PCX,40,United States,North-America
+PNK,6819,United States,North-America
+SAO,144,Brazil,South-America
+SES,331,Singapore,Asia
+SHH,6,China,Asia
+STO,76,Sweden,Europe
+STU,775,Germany,Europe
+TAI,149,Taiwan,Asia
+TLO,11,Italy,Europe
+TLV,49,Israel,Asia
+TOR,806,Canada,North-America
+TWO,91,Taiwan,Asia
+VAN,1072,Canada,North-America
+VIE,25,Austria,Europe
+VTX,18,Switzerland,Europe
