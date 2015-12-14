@@ -17,3 +17,5 @@ close numeric(8,2),
 volume numeric(8,2),
 adj close numeric(8,2)
 )
+
+create ta

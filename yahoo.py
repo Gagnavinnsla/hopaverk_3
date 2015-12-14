@@ -1,5 +1,12 @@
-import pandas.io.data as web
-from web import Options
+from pandas_datareader import data as web
+import pandas as pd
+import numpy as np
+import datetime
+from datetime import date
 
-aapl = Options('AAPL')
-puts, calls = appl.get_options_data()
+start = datetime.datetime(2010,1,1)
+today = datetime.datetime.today()
+end = today
+
+x = web.DataReader(ticker,'yahoo',start,end)
+
