@@ -5,6 +5,7 @@ create table exchange(
 exch varchar(250),
 fjoldi int,
 land varchar(250),
+heimsalfa varchar(250),
 primary key(exch)
 );
 
