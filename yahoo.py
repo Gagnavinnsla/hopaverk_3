@@ -35,10 +35,13 @@ for i in range(len(ticker)):
 	print(i)
 	print(command)
 	cursor.execute(command)
-	#x = web.DataReader(ticker.iloc[i,0],'yahoo',start,end)
-	#for j in range(len(x)):
-	#	command="""insert into data(ticker,dags,open,high,low,close,volume,adjclose) values ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(ticker.iloc[i,0],x.index[j],x.iloc[j,0],x.iloc[j,1],x.iloc[j,2],x.iloc[j,3],x.iloc[j,4],x.iloc[j,5])
-	#	cursor.execute(command)
+	try:
+		x = web.DataReader(ticker.iloc[i,0],'yahoo',start,end)
+		for j in range(len(x)):
+			command="""insert into data(ticker,dags,open,high,low,close,volume,adjclose) values ('{}','{}','{}','{}','{}','{}','{}','{}')""".format(ticker.iloc[i,0],x.index[j],x.iloc[j,0],x.iloc[j,1],x.iloc[j,2],x.iloc[j,3],x.iloc[j,4],x.iloc[j,5])
+			cursor.execute(command)
+	except OSError:
+		print('ticker.iloc[i,0] er úreltur')
 conn.commit()
 cursor.close()
 conn.close()
