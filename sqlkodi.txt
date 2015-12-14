@@ -1,0 +1,7 @@
+select c.ticker, c.name
+from company c, exchange e
+when c.exchange like 'input exchange%';
+
+select c.ticker, c.name
+from company c, exchange e
+when c.exchange = e.exch and e.land like 'input country%';
