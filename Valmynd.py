@@ -57,9 +57,15 @@ if x==2:
 		if x==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
+			cursor.execute('select * from exchange where ')
+			F=cursor.fetchall()
 		elif x==2:
 			F=printnames('select Distinct e.land from exchange e')
 			Worked=True
+			cursor.execute('')
+			F=cursor.fetchall
 		elif x==3:
 			F=printnames('select Distinc e.exch from exchange e')
 			Worked=True
+			cursor.execute('')
+			F=cursor.fetchall()
