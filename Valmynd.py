@@ -66,14 +66,15 @@ if x==2:
 	Worked=False
 	while Worked==False:
 		try:
-			Chosen=int(input("""Hversu langt tímabil viltu skoða:\nEitt ár(1) \nTvö ár(2) \nÞrjú ár (3) """))
+			Chosen=int(input("""Hversu langt tímabil viltu skoða:\nEitt ár(1) \nÞrjú ár(2) \nFimm ár (3) """))
 			if Chosen==1:
 				Timeformat=date.today()-timedelta(days=365)
 				Worked=True
-			elif Chosen==2
+			elif Chosen==2:
 				Timeformat=date.today()-timedelta(days=3*365)
 				Worked=True
-			elif Chosen==3
+			elif Chosen==3:
+				Worked=True
 				Timeformat=date.today()-timedelta(days=5*365)
 		except ValueError:
 			continue
@@ -111,7 +112,8 @@ if x==2:
 		except ValueError:
 			continue
 	#Bæta við áhættusækni??
-if F[-1][1]==ICEX:
+print(F[-1][1])
+if F[-1][1]=='HAGA.IC':
 	print('Iceland!!')
 	rf=0.065
 else:
@@ -164,7 +166,7 @@ one = matrix(one).T
 A = matrix([[(a.T*inv*a).item(0), (a.T*inv*one).item(0)], [(a.T*inv*one).item(0), (one.T*inv*one).item(0)]])
 AI = A.I
 
-list1=np.arange(0,0.5,0.01)
+list1=np.arange(0,2,0.1)
 
 std = []
 for i in range(len(list1)):
@@ -178,20 +180,20 @@ w = []
 for i in range(len(list1)):
 	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
 
-MarketReturn=((a-rf).T*inv*(a-rf)).item(0)/(one*inv*(a-e)).item(0)
+MarketReturn=((a-rf).T*inv*(a-rf)).item(0)/(one.T*inv*(a-rf)).item(0)
 VigtMarket=inv*Aone*AI*matrix([[MarketReturn,1]]).T
 StdMarket=((matrix([[MarketReturn,1]])*AI*matrix([[MarketReturn,1]]).T).item(0))**0.5
-wMarket=np.arrange(0,2,0.1)
+wMarket=np.arange(0,1.5,0.1)
 ReturnCML=[]
 StdCML=[]
 for i in range(len(wMarket)):
-	ReturnCML.append(w*Marketreturn+(1-w)*rf)
-	StdCML.append=(w*StdMarket)
-
-
+	ReturnCML.append(wMarket[i]*MarketReturn+(1-wMarket[i])*rf)
+	StdCML.append(wMarket[i]*StdMarket)
+print(ReturnCML,StdCML)
+plt.plot(StdCML,ReturnCML,'-o')
 plt.plot(std, list1, '-o')
-plt.axis([0,0.5,0,1])
+#plt.axis([0,0.5,0,1])
 plt.ylabel('mean')
 plt.xlabel('std')
-plt.plot(StdCML,ReturnCML,'-y')
+
 pylab.show()
