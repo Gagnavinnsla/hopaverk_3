@@ -4,7 +4,7 @@ import getpass
 import matplotlib.pyplot as plt
 import numpy as np 
 from numpy import matrix
-from scipy import linalg
+from numpy import linalg
 import pylab
 from datetime import date
 from datetime import timedelta
@@ -154,8 +154,12 @@ if x==1:
 
 covmat.fillna(0,inplace=True)
 inv = matrix(covmat).I
-print(inv)
-yearly_expret[np.isneginf(yearly_expret)] = 0
+#yearly_expret[yearly_expret>2.2 or yearly_expret<-1] = 0
+for i in range(len(yearly_expret)):
+	if yearly_expret[i]>2.2:
+		yearly_expret[i]=0
+	elif yearly_expret[i]<-1:
+		yearly_expret[i]=0
 a = (matrix(yearly_expret).T)
 
 one = []
@@ -174,8 +178,6 @@ for i in range(len(list1)):
 
 Aone = np.hstack([a, one])
 
-print(Aone)
-
 w = []
 for i in range(len(list1)):
 	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
@@ -189,11 +191,10 @@ StdCML=[]
 for i in range(len(wMarket)):
 	ReturnCML.append(wMarket[i]*MarketReturn+(1-wMarket[i])*rf)
 	StdCML.append(wMarket[i]*StdMarket)
-print(ReturnCML,StdCML)
-plt.plot(StdCML,ReturnCML,'-o')
-plt.plot(std, list1, '-o')
-#plt.axis([0,0.5,0,1])
+plt.plot(StdCML,ReturnCML,'-')
+plt.plot(std, list1, '-')
+plt.axis([0,0.25,0,1.25])
 plt.ylabel('mean')
 plt.xlabel('std')
-
+print(yearly_expret)
 pylab.show()
