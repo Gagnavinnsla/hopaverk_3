@@ -116,7 +116,7 @@ if x==1:
 			continue
 
 covmat.fillna(0,inplace=True)
-inv = linalg.inv(covmat)
+inv = matrix(covmat).I
 print(inv)
 yearly_expret[np.isneginf(yearly_expret)] = 0
 a = (matrix(yearly_expret).T)
@@ -147,7 +147,8 @@ for i in range(len(list1)):
 	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
 
 print(std)
-plt.plot(std, list1, 'o')
+plt.plot(std, list1, '-o')
+plt.axis([0,0.5,0,0.5])
 plt.ylabel('mean')
 plt.xlabel('std')
 pylab.show()
