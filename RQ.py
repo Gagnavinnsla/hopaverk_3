@@ -1,137 +1,142 @@
-def getAnswer (answer, counter):
-	if answer1 == 'a':
-		counter += 1
-	elif answer1 == 'b':
-		counter += 2
-	elif answer1 == 'c':
-		counter += 3
-	elif answer1 == 'd':
-		counter += 4
-	elif answer1 == 'e':
-		counter += 5
-	return counter
+def Quiz()
+	def getAnswer (answer, counter):
+		if answer1 == 'a':
+			counter += 1
+		elif answer1 == 'b':
+			counter += 2
+		elif answer1 == 'c':
+			counter += 3
+		elif answer1 == 'd':
+			counter += 4
+		elif answer1 == 'e':
+			counter += 5
+		return counter
 
-def nidurstada (counter):
-	if counter >= 46:
-		Notandi = 'A'
-	elif counter > 40 and counter < 46:
-		Notandi = 'B'
-	elif counter >= 36 and counter < 41:
-		Notandi = 'C'
-	elif counter >= 31 and counter < 36:
-		Notandi = 'D'
-	elif counter < 31:
-		Notandi = 'E'
-	return Notandi
+	def nidurstada (counter):
+		if counter >= 46:
+			Notandi = 'A'
+			print('Þú ert mjög áhættusækinn og því mælum við með:')
+		elif counter > 40 and counter < 46:
+			Notandi = 'B'
+			print('Þú ert áhættusækinn og því mælum við með:')
+		elif counter >= 36 and counter < 41:
+			Notandi = 'C'
+			print('Þú ert meðal')
+		elif counter >= 31 and counter < 36:
+			Notandi = 'D'
+		elif counter < 31:
+			Notandi = 'E'
+		return Notandi
 
-counter = 0
-answer1 = str.lower(input("""Spurning 1: Laun og heildargróði frá starfinu mínu eru líkleg til að vaxa verulega á næstu árum.
-	a: Mjög ósammála.
-	b: Ósammála.
-	c: Hvorki sammála né ósammála.
-	d: Sammála.
-	e: Mjög sammála.
-	Svar: """))
-counter = getAnswer(answer1, counter)
+	counter = 0
+	answer1 = str.lower(input("""Spurning 1: Laun og/eða heildargróði eru líkleg til að vaxa verulega á næstu árum.
+		a: Mjög ósammála.
+		b: Ósammála.
+		c: Hvorki sammála né ósammála.
+		d: Sammála.
+		e: Mjög sammála.
+		Svar: """))
+	counter = getAnswer(answer1, counter)
 
-answer2 = str.lower(input("""Spurning 2: Ef ég væri að ákveða hvernig ég myndi ráðstafa eftirlaunum mínum, myndi ég velja fjárfestingu sem býður upp á fasta ávöxtun og stöðuleika.
-	a: Mjög sammála.
-	b: Sammála.
-	c: Hvorki sammála né ósammála.
-	d: Ósammála.
-	e: Mjög ósammála.
-	Svar: """))
-counter = getAnswer(answer2, counter)
+	answer2 = str.lower(input("""Spurning 2: Ef ég væri að ákveða hvernig ég myndi ráðstafa eftirlaunum mínum, myndi ég velja fjárfestingu sem býður upp á fasta ávöxtun og stöðuleika.
+		a: Mjög sammála.
+		b: Sammála.
+		c: Hvorki sammála né ósammála.
+		d: Ósammála.
+		e: Mjög ósammála.
+		Svar: """))
+	counter = getAnswer(answer2, counter)
 
-answer3 = str.lower(input("""Spurning 3: Ég trúi því að það að fjárfesta á hlutabréfamarkaðnum í dag sé eins og að snúa rúllettu hjóli í Las Vegas - líkurnar eru á móti þér.
-	a: Mjög sammála.
-	b: Sammála.
-	c: Hvorki sammála né ósammála.
-	d: Ósammála.
-	e: Mjög ósammála.
-	Svar: """))
-counter = getAnswer(answer3, counter)
+	answer3 = str.lower(input("""Spurning 3: Ég trúi því að það að fjárfesta á hlutabréfamarkaðnum í dag sé eins og spilavíti - líkurnar eru á móti þér.
+		a: Mjög sammála.
+		b: Sammála.
+		c: Hvorki sammála né ósammála.
+		d: Ósammála.
+		e: Mjög ósammála.
+		Svar: """))
+	counter = getAnswer(answer3, counter)
 
-answer4 = str.lower(input("""Spurning 4: Ef ég væri að velja hlutabréf til þess að fjárfesta í, myndi ég leita að fyrirtækjum sem væru að framleiða vinsælar vörur framtíðinnar, eins og t.d. næsta pensillínið.
-	a: Mjög ósammála.
-	b: Ósammála.
-	c: Hvorki sammála né ósammála.
-	d: Sammála.
-	e: Mjög sammála.
-	Svar: """))
-counter = getAnswer(answer4, counter)
+	answer4 = str.lower(input("""Spurning 4: Ef ég væri að velja hlutabréf til þess að fjárfesta í, myndi ég leita að fyrirtækjum sem væru að framleiða vinsælar vörur framtíðinnar, eins og t.d. næsta pensillínið.
+		a: Mjög ósammála.
+		b: Ósammála.
+		c: Hvorki sammála né ósammála.
+		d: Sammála.
+		e: Mjög sammála.
+		Svar: """))
+	counter = getAnswer(answer4, counter)
 
-answer5 = str.lower(input("""Spurning 5: Ef ég væri að fjárfesta með sparifé barna minna, myndi ég velja:
-	a: Leggja inn á bankabók.
-	b: Ríkisskuldabréf.
-	c: Hlutabréf.
-	d: Hlutabréfasjóð.
-	e: Framvirka samninga.
-	Svar: """))
-counter = getAnswer(answer5, counter)
+	answer5 = str.lower(input("""Spurning 5: Ef ég væri að fjárfesta með sparifé barna minna, myndi ég velja:
+		a: Leggja inn á bankabók.
+		b: Ríkisskuldabréf.
+		c: Hlutabréfasjóð.
+		d: Hlutabréf.
+		e: Framvirka samninga.
+		Svar: """))
+	counter = getAnswer(answer5, counter)
 
-answer6 = str.lower(input("""Spurning 6: Fjárhagsleg velferð þessara fjölda manneskja veltur á mér.
-	a: Fjórir eða meira.
-	b: Þrír.
-	c: Tveir.
-	d: Einn.
-	e: Aðeins mér einum.
-	Svar: """))
-counter = getAnswer(answer6, counter)
+	answer6 = str.lower(input("""Spurning 6: Fjárhagsleg velferð þessara fjölda manneskja veltur á mér.
+		a: Fjórir eða meira.
+		b: Þrír.
+		c: Tveir.
+		d: Einn.
+		e: Aðeins mér einum.
+		Svar: """))
+	counter = getAnswer(answer6, counter)
 
-answer7 = str.lower(input("""Spurning 7: Fjöldi ára þangað til ég býst við að hætta á vinnumarkaðnum:
-	a: Hættur nú þegar.
-	b: Minna en 5 ár.
-	c: 5-14 ár.
-	d: 15-24 ár.
-	e: 25 eða meira.
-	Svar: """))
-counter = getAnswer(answer7, counter)
+	answer7 = str.lower(input("""Spurning 7: Fjöldi ára þangað til ég býst við að hætta á vinnumarkaðnum:
+		a: Hættur nú þegar.
+		b: Minna en 5 ár.
+		c: 5-14 ár.
+		d: 15-24 ár.
+		e: 25 eða meira.
+		Svar: """))
+	counter = getAnswer(answer7, counter)
 
-answer8 = str.lower(input("""Spurning 8: Mitt heildarverðmæti (verðmæti allra eigna umfram skuldir) er:
-	a: Undir 2 milljón kr.
-	b: 2 - 6.5 milljón kr.
-	c: 6.5 - 20 milljón kr.
-	d: 20 - 45 milljón kr.
-	e: Yfir 45 milljónir.
-	Svar: """))
-counter = getAnswer(answer8, counter)
+	answer8 = str.lower(input("""Spurning 8: Mitt heildarverðmæti (verðmæti allra eigna umfram skuldir) er:
+		a: Undir 2 milljón kr.
+		b: 2 - 6.5 milljón kr.
+		c: 6.5 - 20 milljón kr.
+		d: 20 - 45 milljón kr.
+		e: Yfir 45 milljónir.
+		Svar: """))
+	counter = getAnswer(answer8, counter)
 
-answer9 = str.lower(input("""Spurning 9: Sú upphæð sem ég hef sparað fyrir neyðartilvik, eins og brottvísun úr starfi eða óvæntur sjúkrakostnaður, hljóðar upp á:
-	a: Eins mánaðar laun eða minna.
-	b: Tvo til sex mánaða laun.
-	c: Sjö mánaða til árs launa.
-	d: Eins til tveggja ára launa.
-	e: Meira en tveggja ára launa.
-	Svar: """))
-counter = getAnswer(answer9, counter)
+	answer9 = str.lower(input("""Spurning 9: Sú upphæð sem ég hef sparað fyrir neyðartilvik, eins og brottvísun úr starfi eða óvæntur sjúkrakostnaður, hljóðar upp á:
+		a: Eins mánaðar laun eða minna.
+		b: Tvo til sex mánaða laun.
+		c: Sjö mánaða til árs launa.
+		d: Eins til tveggja ára launa.
+		e: Meira en tveggja ára launa.
+		Svar: """))
+	counter = getAnswer(answer9, counter)
 
-answer10 = str.lower(input("""Spurning 10: Ég myndi frekar fjárfesta í hlutabréfasjóði en stökum hlutabréfum því hlutabréfasjóðir bjóða upp á faglega stjórnun og fjölbreytni.
-	a: Mjög sammála.
-	b: Sammála.
-	c: Hvorki sammála né ósammála.
-	d: Ósammála.
-	e: Mjög ósammála.
-	Svar: """))
-counter = getAnswer(answer10, counter)
+	answer10 = str.lower(input("""Spurning 10: Ég myndi frekar fjárfesta í hlutabréfasjóði en stökum hlutabréfum því hlutabréfasjóðir bjóða upp á faglega stjórnun og fjölbreytni.
+		a: Mjög sammála.
+		b: Sammála.
+		c: Hvorki sammála né ósammála.
+		d: Ósammála.
+		e: Mjög ósammála.
+		Svar: """))
+	counter = getAnswer(answer10, counter)
 
-answer11 = str.lower(input("""Spurning 11: Mig langar og þarfnast þess að minnka heildarskuldir mínar.
-	a: Mjög sammála.
-	b: Sammála.
-	c: Hvorki sammála né ósammála.
-	d: Ósammála.
-	e: Mjög ósammála.
-	Svar: """))
-counter = getAnswer(answer11, counter)
+	answer11 = str.lower(input("""Spurning 11: Mig langar/þarf að minnka heildarskuldir mínar.
+		a: Mjög sammála.
+		b: Sammála.
+		c: Hvorki sammála né ósammála.
+		d: Ósammála.
+		e: Mjög ósammála.
+		Svar: """))
+	counter = getAnswer(answer11, counter)
 
-answer12 = str.lower(input("""Spurning 12: Þegar ég fjárfesti, er ég tilbúinn til að sætta mig við lægri ávöxtun ef hún inniheldur enga áhættu, frekar en meiri ávöxtun með meiri áhættu.
-	a: Mjög sammála.
-	b: Sammála.
-	c: Hvorki sammála né ósammála.
-	d: Ósammála.
-	e: Mjög ósammála.
-	Svar: """))
-counter = getAnswer(answer12, counter)
-Notandi = nidurstada(counter)
-print('Þú ert í flokki %s' % Notandi)
+	answer12 = str.lower(input("""Spurning 12: Þegar ég fjárfesti, er ég tilbúinn til að sætta mig við lægri ávöxtun ef hún inniheldur enga áhættu, frekar en meiri ávöxtun með meiri áhættu.
+		a: Mjög sammála.
+		b: Sammála.
+		c: Hvorki sammála né ósammála.
+		d: Ósammála.
+		e: Mjög ósammála.
+		Svar: """))
+	counter = getAnswer(answer12, counter)
+	Notandi = nidurstada(counter)
+	#print('Þú ert í flokki %s' % Notandi)
+return Notandi
 
