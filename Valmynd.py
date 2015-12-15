@@ -45,7 +45,7 @@ Velkominn í Ultra-Super-Mega-Giga-Undestructable-Uber-Portfolio Calculator
 
 Chosen=False
 while Chosen==False:
-	x=input("""Skoða markaðinn (Veldu 1)\nBúa til portfolio (Veldu 2)\nSpila Ping-Pong Veldu (3)\n""")
+	x=input("""Markaðurinn (Veldu: 1)\nFjárfestingarráðgjöf (Veldu 2)\nSpila Ping-Pong Veldu 3\n""")
 	if x.isdigit():
 		if int(x)==1:
 			Chosen=True
@@ -66,7 +66,11 @@ x=int(x)
 if x==2:
 	Worked=False
 	while Worked==False:
+<<<<<<< HEAD
 		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa(1)\nLand(2)\nMarkað(3)"""))
+=======
+		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa (1) \nLand (2) \nMarkað (3) """))
+>>>>>>> 3f279e92c9466c84713f14faed51f4f1e6522ff1
 		if T==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
@@ -74,7 +78,7 @@ if x==2:
 				and '{}' """.format(F,eittar))
 			F=cursor.fetchall()
 		elif T==2:
-			print("Veldu Heimsálfu: ")
+			print("Veldu heimsálfu: ")
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			print("Veldu land: ")
 			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
@@ -83,11 +87,11 @@ if x==2:
 				and d.dags > '{}' """.format(F,eittar))			
 			F=cursor.fetchall()			
 		elif T==3:
-			print("Veldu Heimsálfu: ")
+			print("Veldu heimsálfu: ")
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			print("Veldu land: ")
 			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
-			print("Veldu Markað: ")
+			print("Veldu markað: ")
 			F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
 			Worked=True
 			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker 
@@ -113,6 +117,9 @@ if x==1:
 			x=int(input("""Veldu hvað þú vilt sjá:\n (1) Daginn í dag\n(2) Portfolio\n(3) Annað\n"""))
 			if x==1:
 				Worked=True
+				innlestur = ['^GSPC', '^DJI', '^IXIC']
+				yah = web.DataReader(innlestur,'yahoo',date.today(),date.today())
+				print(yah)
 				#INTERNET HAX
 			elif x==2:
 				Portfolio=pd.read_csv('Portfolio.csv',sep=';',encoding='utf8')
