@@ -15,7 +15,7 @@ conn = psycopg2.connect(conn_string)
 
 cursor = conn.cursor()
 
-
+\
 #Valmynd
 def printnames(Text) :
 	Bool = False
@@ -57,7 +57,7 @@ if x==2:
 		if x==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
-			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' """.format(F))
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' """.format(F))
 			F=cursor.fetchall()
 		elif x==2:
 			print("Veldu Heimsálfu: ")
@@ -65,7 +65,7 @@ if x==2:
 			print("Veldu land: ")
 			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' """.format(F))			
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' """.format(F))			
 			F=cursor.fetchall()			
 		elif x==3:
 			print("Veldu Heimsálfu: ")
@@ -75,7 +75,25 @@ if x==2:
 			print("Veldu Markað: ")
 			F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute("""select d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.exch like '{}' """.format(F))			
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.exch like '{}' """.format(F))			
 			F=cursor.fetchall()
+	#Bæta við áhættusækni??
 
-print(F)
+if x==1:
+	Worked=False
+	while Worked==False:
+		try:
+			x=int(input("""Veldu hvað þú vilt sjá:\n (1) Daginn í dag\n(2) Portfolio\n(3) Annað\n"""))
+			if x==1:
+				Worked=True
+				#INTERNET HAX
+			elif x==2:
+				Portfolio=pd.read_csv('Portfolio.csv',sep=';',encoding='utf8')
+				Worked=True
+				#Internet HAX
+			elif x==3:
+				Worked=True
+				#Internet HaX
+				print('Muahahahah')
+		except ValueError:
+			continue
