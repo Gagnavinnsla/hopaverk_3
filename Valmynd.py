@@ -6,6 +6,8 @@ import numpy as np
 from numpy import matrix
 from scipy import linalg
 import pylab
+from datetime import date
+from datetime import timedelta
 
 
 host = 'localhost'
@@ -55,15 +57,21 @@ while Chosen==False:
 			print('Veldu eitthvað af valmöguleikunum')
 	else:
 			print('Veldu eitthvað af valmöguleikunum')
+
+eittar = date.today()-timedelta(days=365)
+thrjuar = date.today()-timedelta(days=3*365)			
+fimmar = date.today()-timedelta(days=5*365)
+
 x=int(x)
 if x==2:
 	Worked=False
 	while Worked==False:
-		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\n Heimsálfa(1)\nLand(2)\nMarkað(3)"""))
+		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa(1)\nLand(2)\nMarkað(3)"""))
 		if T==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' """.format(F))
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' 
+				and '{}' """.format(F,eittar))
 			F=cursor.fetchall()
 		elif T==2:
 			print("Veldu Heimsálfu: ")
@@ -71,7 +79,8 @@ if x==2:
 			print("Veldu land: ")
 			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' """.format(F))			
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' 
+				and d.dags > '{}' """.format(F,eittar))			
 			F=cursor.fetchall()			
 		elif T==3:
 			print("Veldu Heimsálfu: ")
@@ -81,7 +90,8 @@ if x==2:
 			print("Veldu Markað: ")
 			F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
 			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.exch like '{}' """.format(F))			
+			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker 
+			where e.exch like '%{}%' and d.dags > '{}' """.format(F,eittar))			
 			F=cursor.fetchall()
 	#Bæta við áhættusækni??
 
@@ -131,7 +141,7 @@ AI = A.I
 
 list1=[]
 list1.append(0)
-for i in range(1,50):
+for i in range(1,100):
 	list1.append(list1[i-1]+0.01)
 
 std = []
@@ -148,7 +158,7 @@ for i in range(len(list1)):
 
 print(std)
 plt.plot(std, list1, '-o')
-plt.axis([0,0.5,0,0.5])
+plt.axis([0,0.5,0,1])
 plt.ylabel('mean')
 plt.xlabel('std')
 pylab.show()
