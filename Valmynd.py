@@ -79,6 +79,14 @@ if x==2:
 			F=cursor.fetchall()
 	#Bæta við áhættusækni??
 
+df = pd.DataFrame(F)
+df = df.pivot(index=0,columns=1,values=2)
+daily_ret = df.pct_change()
+daily_expret = daily_ret.mean()
+yearly_expret = daily_ret.mean()*sqrt(252)
+
+
+
 if x==1:
 	Worked=False
 	while Worked==False:
