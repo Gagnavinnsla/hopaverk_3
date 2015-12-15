@@ -9,13 +9,14 @@ import pylab
 from datetime import date
 from datetime import timedelta
 import RQ
-
+from pandas_datareader import data as web
+from yahoo_finance import Share
 
 host = 'localhost'
 dbname = 'stocks'
 
-username = 'johanneshilmarsson'
-pw = 'joijoi10'
+username = 'postgres'
+pw = 'postgres'
 conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
 
 print("Connecting to database {}.{} as {}".format(host, dbname, username))
@@ -138,10 +139,48 @@ if x==1:
 			x=int(input("""Veldu hvað þú vilt sjá:\n (1) Daginn í dag\n(2) Portfolio\n(3) Annað\n"""))
 			if x==1:
 				Worked=True
+				start = date.today()-timedelta(days=7)
+				end = date.today()
 				innlestur = ['^GSPC', '^DJI', '^IXIC']
-				yah = web.DataReader(innlestur,'yahoo',date.today(),date.today())
-				print(yah)
-				#INTERNET HAX
+				dix={}
+				for i in innlestur:
+				    dix[i]=web.DataReader(i,'yahoo',start,end)
+				df = pd.Panel(dix).minor_xs('Adj Close')
+				dfx = pd.concat([df, df.pct_change()], axis=1).dropna()
+				colms = [['S&P 500', 'Dow Jones Industrial','NASDAQ 100']['Adj Close', 'Daily Return']]
+				multidx = pd.MultiIndex.from_product(colms)
+				dfx.columns = multidx
+				print('Helstu vísitölur: \n', dfx)
+				#input heimsalfa -> land -> exchange -> ticker
+
+
+
+
+				df = web.DataReader('AAPL','yahoo',start,end)
+				dfb = web.DataReader('^GSPC','yahoo',start,end)
+				df = pd.Panel(dix).minor_xs('Adj Close')
+				dfb = pd.Panel(dix).minor_xs('Adj Close')
+				dfret = df.pct_change()
+				dfret = dfret.dropna()
+				dfbret = dfb.pct_change()
+				dfbret = dfbret.dropna()
+				dfx=pd.concat([df,dfret,dfb,dfbret],axis=1)
+				cols = [['Apple Inc','S&P 500'],['Adj Close', 'Daily Return']]
+				multi_idx = pd.MultiIndex.from_product(cols)
+				dfx.columns = cols
+				dfx = dfx.dropna()
+				covmat = pd.concat([dfret,dfbret],axis=0).cov()
+				beta = covmat[0,1]/covmat[1,1]
+				alpha = np.mean(dfret)-beta*np.mean(dfbret)
+				volatility = np.sqrt(covmat[0,0])
+				momentum = np.prod(1+dfret.tail(12).values)-1
+				prd = 12
+				alpha = alpha*prd
+				volatility = volatility*np.sqrt(prd)
+				plt.plot(dfret,dfbret)
+				plt.ylabel('Price')
+				plt.xlabel('Time')
+				plt.show()
 			elif x==2:
 				Portfolio=pd.read_csv('Portfolio.csv',sep=';',encoding='utf8')
 				Worked=True
