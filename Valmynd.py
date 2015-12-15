@@ -8,6 +8,7 @@ from numpy import linalg
 import pylab
 from datetime import date
 from datetime import timedelta
+import RQ
 
 
 host = 'localhost'
@@ -23,7 +24,7 @@ conn = psycopg2.connect(conn_string)
 
 cursor = conn.cursor()
 
-\
+
 #Valmynd
 def printnames(Text) :
 	Bool = False
@@ -156,7 +157,7 @@ covmat.fillna(0,inplace=True)
 inv = matrix(covmat).I
 #yearly_expret[yearly_expret>2.2 or yearly_expret<-1] = 0
 for i in range(len(yearly_expret)):
-	if yearly_expret[i]>2.2:
+	if yearly_expret[i]>1.5:
 		yearly_expret[i]=0
 	elif yearly_expret[i]<-1:
 		yearly_expret[i]=0
@@ -193,8 +194,41 @@ for i in range(len(wMarket)):
 	StdCML.append(wMarket[i]*StdMarket)
 plt.plot(StdCML,ReturnCML,'-')
 plt.plot(std, list1, '-')
-plt.axis([0,0.25,0,1.25])
+#plt.axis([0,0.25,0,1.25])
 plt.ylabel('mean')
 plt.xlabel('std')
 print(yearly_expret)
 pylab.show()
+
+Tickers=pd.DataFrame(yearly_expret.index.get_values())
+def printweight(PortfolioSTD,VigtMarket,StdMarket,Tickers):
+	Weight=PortfolioSTD/StdMarket
+	VigtPortfolio=pd.DataFrame(Weight*VigtMarket)
+	S=pd.DataFrame(columns=('Tickers','Weights'))
+	S.loc[i]=['RiskFree',(1-Weight)]
+	VigtPortfolio=pd.concat([Tickers,VigtPortfolio],axis=1)
+	VigtPortfolio.columns=('Tickers','Weights')
+	VigtPortfolio=VigtPortfolio.append(S)
+	VigtPortfolio.to_csv('Portfolio.csv')
+	print(VigtPortfolio)
+
+Bool=True
+while Bool==True:
+	Risk=RQ.Quiz()
+	if Risk=='A':
+		printweight(0.25,VigtMarket,StdMarket,Tickers)
+		Bool=False
+	elif Risk=='B':
+		printweight(0.16,VigtMarket,StdMarket,Tickers)
+		Bool=False
+	elif Risk=='C':
+		printweight(0.12,VigtMarket,StdMarket,Tickers)
+		Bool=False
+	elif Risk=='D':
+		printweight(0.05,VigtMarket,StdMarket,Tickers)
+		Bool=False
+	elif Risk=='E':
+		printweight(0,VigtMarket,StdMarket,Tickers)
+		Bool=False
+	else:
+		print('Try again')
