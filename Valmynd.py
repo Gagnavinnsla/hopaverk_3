@@ -1,6 +1,11 @@
 import pandas as pd 
 import psycopg2
 import getpass
+import matplotlib.pyplot as plt
+import numpy as np 
+from numpy import matrix
+import pylab
+
 
 host = 'localhost'
 dbname = 'stocks'
@@ -81,10 +86,12 @@ if x==2:
 
 df = pd.DataFrame(F)
 df = df.pivot(index=0,columns=1,values=2)
-daily_ret = df.pct_change()
-daily_expret = daily_ret.mean()
-yearly_expret = daily_ret.mean()*sqrt(252)
-
+daily_retvec = (df - df.shift(1))/df
+daily_expret = daily_retvec.mean()
+yearly_expret = daily_expret*252
+covmat = daily_retvec.cov()*252
+yearly_vol = daily_retvec.std()*np.sqrt(252)
+yearly_var = daily_retvec.var()*252
 
 
 if x==1:
@@ -105,3 +112,39 @@ if x==1:
 				print('Muahahahah')
 		except ValueError:
 			continue
+
+inv = matrix(covmat).I
+
+a = matrix(yearly_expret).T
+
+one = []
+for i in range(len(a)):
+	one.append(1)
+one = matrix(one).T
+
+A = matrix([[(a.T*inv*a).item(0), (a.T*inv*one).item(0)], [(a.T*inv*one).item(0), (one.T*inv*one).item(0)]])
+AI = A.I
+
+list1=[]
+list1.append(0)
+for i in range(1,50):
+	list1.append(list1[i-1]+0.01)
+
+std = []
+for i in range(len(list1)):
+	std.append(((matrix([[list1[i],1]])*AI*matrix([[list1[i],1]]).T).item(0))**0.5)
+
+Aone = np.hstack([a, one])
+
+print(Aone)
+
+w = []
+for i in range(len(list1)):
+	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
+
+
+plt.plot(std, list1, 'o')
+plt.ylabel('mean')
+plt.xlabel('std')
+plt.plot(std, list1, 'y-o')
+pylab.show()
