@@ -4,14 +4,15 @@ import getpass
 import matplotlib.pyplot as plt
 import numpy as np 
 from numpy import matrix
+from scipy import linalg
 import pylab
 
 
 host = 'localhost'
 dbname = 'stocks'
 
-username = 'postgres'
-pw = 'postgres'
+username = 'johanneshilmarsson'
+pw = 'joijoi10'
 conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
 
 print("Connecting to database {}.{} as {}".format(host, dbname, username))
@@ -58,13 +59,13 @@ x=int(x)
 if x==2:
 	Worked=False
 	while Worked==False:
-		x=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\n Heimsálfa(1)\nLand(2)\nMarkað(3)"""))
-		if x==1:
+		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\n Heimsálfa(1)\nLand(2)\nMarkað(3)"""))
+		if T==1:
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			Worked=True
 			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' """.format(F))
 			F=cursor.fetchall()
-		elif x==2:
+		elif T==2:
 			print("Veldu Heimsálfu: ")
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			print("Veldu land: ")
@@ -72,7 +73,7 @@ if x==2:
 			Worked=True
 			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' """.format(F))			
 			F=cursor.fetchall()			
-		elif x==3:
+		elif T==3:
 			print("Veldu Heimsálfu: ")
 			F=printnames('select DISTINCT e.heimsalfa from exchange e')
 			print("Veldu land: ")
@@ -88,6 +89,7 @@ df = pd.DataFrame(F)
 df = df.pivot(index=0,columns=1,values=2)
 daily_retvec = (df - df.shift(1))/df
 daily_expret = daily_retvec.mean()
+
 yearly_expret = daily_expret*252
 covmat = daily_retvec.cov()*252
 yearly_vol = daily_retvec.std()*np.sqrt(252)
@@ -113,9 +115,11 @@ if x==1:
 		except ValueError:
 			continue
 
-inv = matrix(covmat).I
-
-a = matrix(yearly_expret).T
+covmat.fillna(0,inplace=True)
+inv = linalg.inv(covmat)
+print(inv)
+yearly_expret[np.isneginf(yearly_expret)] = 0
+a = (matrix(yearly_expret).T)
 
 one = []
 for i in range(len(a)):
@@ -142,9 +146,8 @@ w = []
 for i in range(len(list1)):
 	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
 
-
+print(std)
 plt.plot(std, list1, 'o')
 plt.ylabel('mean')
 plt.xlabel('std')
-plt.plot(std, list1, 'y-o')
 pylab.show()
