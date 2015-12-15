@@ -15,8 +15,8 @@ from pandas_datareader import data as web
 host = 'localhost'
 dbname = 'stocks'
 
-username = 'johanneshilmarsson'
-pw = 'joijoi10'
+username = 'postgres'
+pw = 'postgres'
 conn_string = "host='{}' dbname='{}' user='{}' password='{}'".format(host, dbname, username, pw)
 
 print("Connecting to database {}.{} as {}".format(host, dbname, username))
@@ -114,9 +114,7 @@ if x==2:
 		except ValueError:
 			continue
 	#Bæta við áhættusækni??
-print(F[-1][1])
 if F[-1][1]=='HAGA.IC':
-	print('Iceland!!')
 	rf=0.065
 else:
 	rf=0.03
@@ -184,8 +182,17 @@ if x==1:
 
 
 			elif x==2:
-				Portfolio=pd.read_csv('Portfolio.csv',sep=';',encoding='utf8')
+				Portfolio=pd.read_csv('Portfolio.csv',sep=',',encoding='utf8')
 				Worked=True
+				start = date.(2015,12,12)
+				end = date.today()
+				dix = {}
+				for i in Portfolio['Tickers'][:-1]:
+					dix[i] = web.DataReader(i,'yahoo',start,end)
+
+
+    			print(i, Share(i).get_price(), Share(i).get_eps())
+
 				#Internet HAX
 			elif x==3:
 				Worked=True
@@ -247,21 +254,21 @@ def printweight(PortfolioSTD,VigtMarket,StdMarket,Tickers):
 	print(VigtPortfolio)
 	return PortfolioSTD,Weight
 
-if input("""Ef þú ert vanur ýttu á 1, ef ekki ýttu á eitthvað annað"""))==isdigit(1)
+if input("""Ef þú ert vanur ýttu á 1, ef ekki ýttu á eitthvað annað: """)=='1':
 	Bool=True
 	while Bool:
 		try:
-			x=input("Hvort viltu ákvarða útfrá STD (1) eða E(r) (2)"))
-			if x==1:
-				E=int(input("Sláðu inn staðalfrávikið"))
+			x=input("Hvort viltu ákvarða út frá (1) staðalfráviki eða (2) væntri ávöxtun? ")
+			if x=='1':
+				E=float(input("Sláðu inn staðalfrávikið: "))
 				PortfolioSTD,Weight=printweight(E,VigtMarket,StdMarket,Tickers)
 				Bool=False
-			elif x==2:
-				E=int(input("Sláðu inn vænta ávöxtun"))
+			elif x=='2':
+				E=float(input("Sláðu inn vænta ávöxtun: "))
 				PortfolioSTD=((1-(E-rf))/(rf-MarketReturn))*StdMarket
 				PortfolioSTD,Weight=printweight(PortfolioSTD,VigtMarket,StdMarket,Tickers)
 				Bool=False
-		except ValueError:
+		except ValueError: 
 			continue
 else:
 	Bool=True
@@ -290,5 +297,4 @@ plt.plot(std, list1, '-')
 #plt.axis([0,0.25,0,1.25])
 plt.ylabel('mean')
 plt.xlabel('std')
-print(yearly_expret)
 pylab.show()
