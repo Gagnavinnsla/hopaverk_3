@@ -12,7 +12,6 @@ import RQ
 from yahoo_finance import Share
 from pandas_datareader import data as web
 
-
 host = 'localhost'
 dbname = 'stocks'
 
@@ -182,6 +181,8 @@ if x==1:
 				plt.ylabel('Price')
 				plt.xlabel('Time')
 				plt.show()
+
+
 			elif x==2:
 				Portfolio=pd.read_csv('Portfolio.csv',sep=';',encoding='utf8')
 				Worked=True
