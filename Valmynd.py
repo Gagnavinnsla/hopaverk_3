@@ -58,46 +58,64 @@ while Chosen==False:
 	else:
 			print('Veldu eitthvað af valmöguleikunum')
 
-eittar = date.today()-timedelta(days=365)
-thrjuar = date.today()-timedelta(days=3*365)			
-fimmar = date.today()-timedelta(days=5*365)
+
 
 x=int(x)
 if x==2:
+	
 	Worked=False
 	while Worked==False:
-<<<<<<< HEAD
-		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa(1)\nLand(2)\nMarkað(3)"""))
-=======
-		T=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa (1) \nLand (2) \nMarkað (3) """))
->>>>>>> 3f279e92c9466c84713f14faed51f4f1e6522ff1
-		if T==1:
-			F=printnames('select DISTINCT e.heimsalfa from exchange e')
-			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' 
-				and '{}' """.format(F,eittar))
-			F=cursor.fetchall()
-		elif T==2:
-			print("Veldu heimsálfu: ")
-			F=printnames('select DISTINCT e.heimsalfa from exchange e')
-			print("Veldu land: ")
-			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
-			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' 
-				and d.dags > '{}' """.format(F,eittar))			
-			F=cursor.fetchall()			
-		elif T==3:
-			print("Veldu heimsálfu: ")
-			F=printnames('select DISTINCT e.heimsalfa from exchange e')
-			print("Veldu land: ")
-			F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
-			print("Veldu markað: ")
-			F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
-			Worked=True
-			cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker 
-			where e.exch like '%{}%' and d.dags > '{}' """.format(F,eittar))			
-			F=cursor.fetchall()
+		try:
+			Chosen=int(input("""Hversu langt tímabil viltu skoða:\nEitt ár(1) \nTvö ár(2) \nÞrjú ár (3) """))
+			if Chosen==1:
+				Timeformat=date.today()-timedelta(days=365)
+				Worked=True
+			elif Chosen==2
+				Timeformat=date.today()-timedelta(days=3*365)
+				Worked=True
+			elif Chosen==3
+				Timeformat=date.today()-timedelta(days=5*365)
+		except ValueError:
+			continue
+
+	Worked=False
+	while Worked==False:
+		try:
+			Chosen=int(input("""Veldu stærð gagnagrunns fyrir portfolio:\nHeimsálfa (1) \nLand (2) \nMarkað (3) """))
+			if Chosen==1:
+				F=printnames('select DISTINCT e.heimsalfa from exchange e')
+				Worked=True
+				cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.heimsalfa like '{}' 
+					and '{}' """.format(F,Timeformat))
+				F=cursor.fetchall()
+			elif Chosen==2:
+				print("Veldu heimsálfu: ")
+				F=printnames('select DISTINCT e.heimsalfa from exchange e')
+				print("Veldu land: ")
+				F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
+				Worked=True
+				cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker where e.land like '{}' 
+					and d.dags > '{}' """.format(F,Timeformat))			
+				F=cursor.fetchall()			
+			elif Chosen==3:
+				print("Veldu heimsálfu: ")
+				F=printnames('select DISTINCT e.heimsalfa from exchange e')
+				print("Veldu land: ")
+				F=printnames("""select Distinct e.land from exchange e where e.heimsalfa like '%{}%'""".format(F))
+				print("Veldu markað: ")
+				F=printnames("""select Distinct e.exch from exchange e where e.land like '%{}%'""".format(F))
+				Worked=True
+				cursor.execute("""select d.dags, d.ticker,d.adjclose from company c JOIN exchange e ON c.exchange = e.exch JOIN data d ON c.ticker = d.ticker 
+				where e.exch like '%{}%' and d.dags > '{}' """.format(F,Timeformat))			
+				F=cursor.fetchall()
+		except ValueError:
+			continue
 	#Bæta við áhættusækni??
+if F[-1][1]==ICEX:
+	print('Iceland!!')
+	rf=0.065
+else:
+	rf=0.03
 
 df = pd.DataFrame(F)
 df = df.pivot(index=0,columns=1,values=2)
@@ -146,10 +164,7 @@ one = matrix(one).T
 A = matrix([[(a.T*inv*a).item(0), (a.T*inv*one).item(0)], [(a.T*inv*one).item(0), (one.T*inv*one).item(0)]])
 AI = A.I
 
-list1=[]
-list1.append(0)
-for i in range(1,100):
-	list1.append(list1[i-1]+0.01)
+list1=np.arange(0,0.5,0.01)
 
 std = []
 for i in range(len(list1)):
@@ -163,9 +178,20 @@ w = []
 for i in range(len(list1)):
 	w.append(inv*Aone*AI*matrix([[list1[i],1]]).T)
 
-print(std)
+MarketReturn=((a-rf).T*inv*(a-rf)).item(0)/(one*inv*(a-e)).item(0)
+VigtMarket=inv*Aone*AI*matrix([[MarketReturn,1]]).T
+StdMarket=((matrix([[MarketReturn,1]])*AI*matrix([[MarketReturn,1]]).T).item(0))**0.5
+wMarket=np.arrange(0,2,0.1)
+ReturnCML=[]
+StdCML=[]
+for i in range(len(wMarket)):
+	ReturnCML.append(w*Marketreturn+(1-w)*rf)
+	StdCML.append=(w*StdMarket)
+
+
 plt.plot(std, list1, '-o')
 plt.axis([0,0.5,0,1])
 plt.ylabel('mean')
 plt.xlabel('std')
+plt.plot(StdCML,ReturnCML,'-y')
 pylab.show()
