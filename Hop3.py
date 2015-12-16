@@ -145,9 +145,9 @@ if x==1:
 				    dix[i]=web.DataReader(i,'yahoo',start,end)
 				df = pd.Panel(dix).minor_xs('Adj Close')
 				dfx = pd.concat([df, df.pct_change()], axis=1).dropna()
-				colms = [['S&P 500', 'Dow Jones Industrial','NASDAQ 100']['Adj Close', 'Daily Return']]
-				multidx = pd.MultiIndex.from_product(colms)
-				dfx.columns = multidx
+				colms = [('S&P 500', 'Adj Close)' 'Dow Jones Industrial','NASDAQ 100']['Adj Close', 'Daily Return']]
+				#multidx = pd.MultiIndex.from_product(colms)
+				#dfx.columns = multidx
 				print('Helstu vísitölur: \n', dfx)
 				#input heimsalfa -> land -> exchange -> ticker
 
@@ -156,29 +156,29 @@ if x==1:
 
 				df = web.DataReader('AAPL','yahoo',start,end)
 				dfb = web.DataReader('^GSPC','yahoo',start,end)
-				df = pd.Panel(dix).minor_xs('Adj Close')
-				dfb = pd.Panel(dix).minor_xs('Adj Close')
-				dfret = df.pct_change()
-				dfret = dfret.dropna()
-				dfbret = dfb.pct_change()
-				dfbret = dfbret.dropna()
+				df = df.ix[0:,5:6]
+				dfb = dfb.ix[0:,5:6]
+				dfret = df.pct_change().dropna()
+				dfbret = dfb.pct_change().dropna()
+				matret = pd.concat([dfret,dfbret],axis=1)
+				matret.columns = ['Apple Inc - Daily Return', 'S&P 500 - Daily Return']
 				dfx=pd.concat([df,dfret,dfb,dfbret],axis=1)
-				cols = [['Apple Inc','S&P 500'],['Adj Close', 'Daily Return']]
-				multi_idx = pd.MultiIndex.from_product(cols)
+				cols = ['Apple Inc - Adj Close','S&P 500 - Adj Close','Apple Inc - Daily Return', 'S&P 500 - Daily Return']
 				dfx.columns = cols
 				dfx = dfx.dropna()
-				covmat = pd.concat([dfret,dfbret],axis=0).cov()
+				covmat = np.cov(matret)
 				beta = covmat[0,1]/covmat[1,1]
 				alpha = np.mean(dfret)-beta*np.mean(dfbret)
 				volatility = np.sqrt(covmat[0,0])
-				momentum = np.prod(1+dfret.tail(12).values)-1
-				prd = 12
-				alpha = alpha*prd
-				volatility = volatility*np.sqrt(prd)
+				timabil = 12
+				ltm = (df.tail(1)-df.iloc[0,0])/df.iloc[0,0]
+				alpha = alpha*timabil
+				volatility = volatility*np.sqrt(timabil)
 				plt.plot(dfret,dfbret)
 				plt.ylabel('Price')
 				plt.xlabel('Time')
 				plt.show()
+				print('Ávöxtun síðustu 12 mánuði: ',ltm,'Beta: ',beta,'\nStaðalfrávik: ',volatility,'\nAlpha-gildi: ',alpha,'\nSamdreifnifylki: ', covmat)
 
 
 			elif x==2:
